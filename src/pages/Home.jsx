@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react';
 import { Link } from 'react-router-dom';
 import Login from '../components/Login';
 
 const Home = () => (
   <div>
     <header>
-      <Link to='/Settings'>
+      <Link to="/Settings">
         <button type="button" data-testid="btn-settings">
           Settings
         </button>
