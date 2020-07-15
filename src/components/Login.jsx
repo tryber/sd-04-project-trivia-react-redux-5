@@ -8,15 +8,8 @@ class Login extends Component {
       name: '',
       email: '',
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.getValue = this.getValue.bind(this);
     this.getLocale = this.getLocale.bind(this);
-  }
-
-  handleChange(e) {
-    const value = e.target.value;
-    this.setState({
-      [e.target.name]: value,
-    });
   }
 
   getLocale() {
@@ -30,48 +23,47 @@ class Login extends Component {
           score: 0,
           gravatarEmail: email,
         },
-      })
+      }),
     );
+  }
+
+  getValue(e) {
+    const value = e.target.value;
+    this.setState({
+      [e.target.name]: value,
+    });
   }
 
   render() {
     return (
-      <div>
-        <form>
-          <label htmlFor="name">
-            Digite seu nome
-            <input
-              name="name"
-              type="text"
-              value={this.state.name}
-              onChange={this.handleChange}
-              data-testid="input-player-name"
-              placeholder="digite seu nome"
-            />
-          </label>
-          <label htmlFor="email">
-            Digite seu email
-            <input
-              name="email"
-              type="text"
-              value={this.state.email}
-              onChange={this.handleChange}
-              data-testid="input-gravatar-email"
-              placeholder="digite seu email"
-            />
-          </label>
-          <Link to="/GameScreen">
-            <button
-              type="button"
-              data-testid="btn-play"
-              disabled={(this.state.email.length && this.state.name.length) < 1}
-              onClick={() => this.getLocale()}
-            >
-              Jogar!
-            </button>
-          </Link>
-        </form>
-      </div>
+      <form>
+        <label htmlFor="name">Digite seu nome</label>
+        <input
+          name="name"
+          type="text"
+          value={this.state.name}
+          onChange={this.getValue}
+          data-testid="input-player-name"
+        />
+        <label htmlFor="email">Digite seu email</label>
+        <input
+          name="email"
+          type="text"
+          value={this.state.email}
+          onChange={this.getValue}
+          data-testid="input-gravatar-email"
+        />
+        <Link to="/GameScreen">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={(this.state.email.length && this.state.name.length) < 1}
+            onClick={() => this.getLocale()}
+          >
+            Jogar!
+          </button>
+        </Link>
+      </form>
     );
   }
 }

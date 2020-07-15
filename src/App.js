@@ -9,8 +9,8 @@ export default function App() {
     <BrowserRouter>
       <div> Trivia </div>
       <Switch>
-        <Route exact path='/' component={Home} />
-        <Route exact path='/Settings' component={Settings} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/Settings" component={Settings} />
       </Switch>
     </BrowserRouter>
   );
