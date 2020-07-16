@@ -1,6 +1,6 @@
-export const INITIAL_STORAGE_STATE = { player: { name: '', gravatarEmail: '' } };
+export const INITIAL_STORAGE_STATE = { name: '', gravatarEmail: '' };
 
 export const createPlayerInLocalStorage = (name, gravatarEmail) => {
-  const player = { ...INITIAL_STORAGE_STATE.player, gravatarEmail, name };
+  const player = { ...INITIAL_STORAGE_STATE, gravatarEmail, name };
   localStorage.setItem('state', JSON.stringify({ player }));
 };
