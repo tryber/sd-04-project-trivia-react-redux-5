@@ -1,5 +1,5 @@
-const gravatarApi = hash => {
-  return fetch(`https://www.gravatar.com/avatar/${hash}`).then((response) =>
+const gravatarApi = (hash) => {
+  fetch(`https://www.gravatar.com/avatar/${hash}`).then((response) =>
     response
       .json()
       .then((picture) =>
