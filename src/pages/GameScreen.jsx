@@ -1,13 +1,21 @@
-import React from 'react';
-import Timer from '../components/Timer';
+import React, { Component } from 'react';
 
-const GameScreen = () => (
-  <div>
-    <header>
-      <Timer />
-    </header>
-    <h3>Game Screen</h3>
-  </div>
-);
+class GameScreen extends Component {
+  render() {
+    return (
+      <div>
+        <div>
+          <h3 data-testid="question-category">Aqui vai a categoria</h3>
+          <p data-testid="question-text">Aqui vai o texto da pergunta</p>
+        </div>
+        <div>
+          <button type="button" data-testid="correct-answer">Correta</button>
+          <button type="button" data-testid="`wrong-answer-${index}`">Incorreta</button>
+        </div>
+        <button data-testid="btn-next" type="button">Próxima</button>
+      </div>
+    );
+  }
+}
 
 export default GameScreen;
