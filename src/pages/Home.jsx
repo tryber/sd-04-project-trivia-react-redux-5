@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Login from '../components/Login';
+import GravatarLogin from '../components/GravatarLogin';
 
 const Home = () => (
   <div>
@@ -11,7 +11,7 @@ const Home = () => (
         </button>
       </Link>
     </header>
-    <Login />
+    <GravatarLogin />
   </div>
 );
 
