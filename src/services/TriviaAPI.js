@@ -7,6 +7,7 @@ export const apiGravatarRequest = async (hash) => {
 export const fetchToken = async () => (
   fetch('https://opentdb.com/api_token.php?command=request')
     .then((data) => data.json())
+    // .then(({ token }) => )
     .catch((err) => console.log('fetchToken', err))
 );
 
