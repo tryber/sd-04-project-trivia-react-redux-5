@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import gravatarApi from '../services/gravatarApi';
+import md5 from 'crypto-js/md5';
 
 class GravatarLogin extends Component {
   constructor(props) {
@@ -47,9 +50,22 @@ class GravatarLogin extends Component {
       </div>
     );
   }
+
+  createGravatar() {
+    const { email } = this.state;
+    const hash = md5(email.toLowerCase());
+  }
+
+  // $email = trim( "     MyEmailAddress@example.com     " ); // "MyEmailAddress@example.com"
+  // $email = strtolower( $email ); // "myemailaddress@example.com"
+  // echo md5( $email );
+  // // "0bc83cb571cd1c50ba6f3e8a78ef1346"
+
   render() {
     return (
       <form>
+
+
         {this.renderName()}
         {this.renderEmail()}
         <Link to="/GameScreen">
@@ -67,4 +83,8 @@ class GravatarLogin extends Component {
   }
 }
 
-export default GravatarLogin;
+const mapDispatchToProps = (dispatch) => ({
+  configImage: () => dispatch(gravatarApi()),
+});
+
+export default connect()(GravatarLogin);
