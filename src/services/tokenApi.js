@@ -3,8 +3,8 @@ const tokenApi = () =>
     response
       .json()
       .then((token) =>
-        response.ok ? Promise.resolve(token) : Promise.reject(token),
+        (response.ok ? Promise.resolve(token) : Promise.reject(token)),
       ),
   );
 
-  export default tokenApi;
+export default tokenApi;

@@ -20,7 +20,8 @@ class Timer extends React.Component {
       this.setState({
         time: time - 1,
       });
-      time === 0 ? this.endTimer(time) : this.getTimer();
+      if (time === 0) return this.endTimer(time);
+      return this.getTimer();
     }, 1000);
   }
 

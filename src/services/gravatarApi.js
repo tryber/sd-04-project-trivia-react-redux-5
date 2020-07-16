@@ -1,9 +1,9 @@
-const gravatarApi = (hash) => {
+const gravatarApi = hash => {
   return fetch(`https://www.gravatar.com/avatar/${hash}`).then((response) =>
     response
       .json()
       .then((picture) =>
-        response.ok ? Promise.resolve(picture) : Promise.reject(picture),
+        (response.ok ? Promise.resolve(picture) : Promise.reject(picture)),
       ),
   );
 };
