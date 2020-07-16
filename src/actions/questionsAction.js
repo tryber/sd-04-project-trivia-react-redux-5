@@ -22,4 +22,4 @@ export function getQuestionsApi(token) {
         console.error(error);
       });
   };
-};
+}

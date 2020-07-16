@@ -8,7 +8,7 @@ const gravatarRequest = () => ({
 });
 
 const gravatarSuccess = (picture) => ({
-  type: QUESTIONS_SUCCESS,
+  type: GRAVATAR_SUCCESS,
   picture,
 });
 
@@ -16,10 +16,10 @@ export function getGravatarApi(hash) {
   return (dispatch) => {
     dispatch(gravatarRequest());
 
-    return gravatarApi(token)
+    return gravatarApi(hash)
       .then((picture) => dispatch(gravatarSuccess(picture)))
       .catch((error) => {
         console.error(error);
       });
   };
-};
+}
