@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import Timer from '../components/Timer';
+import Header from '../components/Header';
 
 class GameScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
 
   componentDidMount() {
-    const {  }
+    
   }
 
   render() {
     return (
       <div>
+        <Header />
         <div>
           <div>
             <h3 data-testid="question-category">Aqui vai a categoria</h3>
