@@ -1,18 +1,25 @@
-import React from 'react';
-import sha256 from 'crypto-js/md5';
+import React, { Component } from 'react';
 
-const Header = () => {
-  const imagem = `https://www.gravatar.com/avatar/${hash}`;
+class Header extends Component {
 
-  <div>
-    <img
-      data-testid="header-profile-picture"
-      alt="Player"
-      src={imagem}
-    />
-    <div data-testid="header-player-name"></div>
-    <div data-testid="header-score"></div>
-  </div>
+  componentDidMount() {
+    const {  }
+  }
+
+  render() {
+    const { gravatarEmail } = JSON.parse(localStorage.getItem('state'));
+    const imagem = `https://www.gravatar.com/avatar/${gravatarEmail}`;
+    return (
+    <div>
+      <img
+        data-testid="header-profile-picture"
+        alt="Player"
+        src={imagem}
+      />
+      <div data-testid="header-player-name"></div>
+      <div data-testid="header-score"></div>
+    </div>);    
+  } 
 }
 
 export default Header;
