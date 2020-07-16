@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import Timer from '../components/Timer';
 
 class GameScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  componentDidMount() {
+    const {  }
+  }
+
   render() {
     return (
       <div>

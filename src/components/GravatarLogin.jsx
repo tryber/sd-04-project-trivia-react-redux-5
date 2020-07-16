@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import gravatarApi from '../services/gravatarApi';
 import md5 from 'crypto-js/md5';
+import { createPlayerInLocalStorage } from '../services/localStorageAPI';
 
 class GravatarLogin extends Component {
   constructor(props) {
@@ -52,20 +53,15 @@ class GravatarLogin extends Component {
   }
 
   createGravatar() {
-    const { email } = this.state;
+    const { name, email } = this.state;
     const hash = md5(email.toLowerCase());
+
+    createPlayerInLocalStorage(name, hash);
   }
-
-  // $email = trim( "     MyEmailAddress@example.com     " ); // "MyEmailAddress@example.com"
-  // $email = strtolower( $email ); // "myemailaddress@example.com"
-  // echo md5( $email );
-  // // "0bc83cb571cd1c50ba6f3e8a78ef1346"
-
+  
   render() {
     return (
       <form>
-
-
         {this.renderName()}
         {this.renderEmail()}
         <Link to="/GameScreen">
@@ -73,7 +69,7 @@ class GravatarLogin extends Component {
             type="button"
             data-testid="btn-play"
             disabled={(this.state.email.length && this.state.name.length) < 1}
-            onClick={() => this.getLocale}
+            onClick={() => this.createGravatar()}
           >
             Jogar!
           </button>
