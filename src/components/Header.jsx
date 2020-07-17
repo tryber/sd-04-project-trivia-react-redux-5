@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 
 class Header extends Component {
-
-  componentDidMount() {
-    const {  }
-  }
-
   render() {
     const { gravatarEmail } = JSON.parse(localStorage.getItem('state'));
     const imagem = `https://www.gravatar.com/avatar/${gravatarEmail}`;

@@ -58,7 +58,7 @@ class GravatarLogin extends Component {
 
     createPlayerInLocalStorage(name, hash);
   }
-  
+
   render() {
     return (
       <form>
