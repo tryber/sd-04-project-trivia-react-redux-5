@@ -9,7 +9,7 @@ const feedbackText = (assertions) => {
 };
 
 const FeedBack = () => {
-  const { score, assertions } = this.props;
+  const { score = 5 , assertions = 3 } = this.props;
   //  nao é pros, mas nao descidimos ainda de onde vem
 
   return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Header extends Component {
   render() {
-    const { gravatarEmail } = JSON.parse(localStorage.getItem('state'));
+    const { name, gravatarEmail, score } = JSON.parse(localStorage.getItem('state'));
     const imagem = `https://www.gravatar.com/avatar/${gravatarEmail}`;
     return (
       <div>
@@ -11,8 +11,8 @@ class Header extends Component {
           alt="Player"
           src={imagem}
         />
-        <div data-testid="header-player-name"></div>
-        <div data-testid="header-score"></div>
+        <div data-testid="header-player-name">{name}</div>
+        <div data-testid="header-score">{score}</div>
       </div>
     );
   }
