@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import * as CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import gravatarApi from '../services/gravatarApi';
-import md5 from 'crypto-js/md5';
-import { createPlayerInLocalStorage } from '../services/localStorageAPI';
+
+import { getName, getEmail } from '../actions';
+import { tokenApi } from '../services/tokenApi';
 
 class GravatarLogin extends Component {
   constructor(props) {
@@ -11,76 +12,75 @@ class GravatarLogin extends Component {
     this.state = {
       name: '',
       email: '',
+      token: '',
     };
-    this.getValue = this.getValue.bind(this);
+    this.getInfo = this.getInfo.bind(this);
   }
 
-  getValue(e) {
-    const value = e.target.value;
-    this.setState({
-      [e.target.name]: value,
-    });
+  componentDidUpdate(_prevProps, prevState) {
+    if (prevState !== this.state) {
+      const state = {
+        player: {
+          name: this.state.name,
+          assertions: 0,
+          score: 0,
+          gravatarEmail: this.state.email,
+        },
+      };
+      localStorage.setItem('state', JSON.stringify(state));
+    }
   }
 
-  renderName() {
-    return (
-      <div>
-        <label htmlFor="name">Digite seu nome</label>
-        <input
-          name="name"
-          type="text"
-          value={this.state.name}
-          onChange={this.getValue}
-          data-testid="input-player-name"
-        />
-      </div>
-    );
-  }
-
-  renderEmail() {
-    return (
-      <div>
-        <label htmlFor="email">Digite seu email</label>
-        <input
-          name="email"
-          type="text"
-          value={this.state.email}
-          onChange={this.getValue}
-          data-testid="input-gravatar-email"
-        />
-      </div>
-    );
-  }
-
-  createGravatar() {
+  getInfo() {
     const { name, email } = this.state;
-    const hash = md5(email.toLowerCase());
-
-    createPlayerInLocalStorage(name, hash);
+    const { setName, setEmail } = this.props;
+    tokenApi().then((tokenFetched) => {
+      localStorage.setItem('token', tokenFetched.token);
+      this.setState({ token: tokenFetched.token });
+    });
+    setName(name);
+    const hash = CryptoJS.MD5(email.trim().toLocaleLowerCase());
+    setEmail(email, hash.toString(CryptoJS.enc.Hex));
   }
-  
+
   render() {
+    const { name, email, token } = this.state;
     return (
-      <form>
-        {this.renderName()}
-        {this.renderEmail()}
+      <div>
+        <img src={`https://www.gravatar.com/avatar/${token}`} />
+        <label htmlFor='name'>Digite seu nome</label>
+        <input
+          id="name"
+          type="text"
+          data-testid="input-player-name"
+          onChange={(e) => this.setState({ name: e.target.value })}
+        />
+        <label htmlFor="emal">Digite seu e-mail</label>
+        <input
+          id="emal"
+          type="email"
+          data-testid="input-gravatar-email"
+          onChange={(e) => this.setState({ email: e.target.value })}
+        />
         <Link to="/GameScreen">
           <button
+            className="play-button"
             type="button"
+            disabled={!name || !email}
+            onClick={this.getInfo}
             data-testid="btn-play"
-            disabled={(this.state.email.length && this.state.name.length) < 1}
-            onClick={() => this.createGravatar()}
           >
-            Jogar!
+            Jogar
           </button>
         </Link>
-      </form>
+      </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  configImage: () => dispatch(gravatarApi()),
+  setName: (name) => dispatch(getName(name)),
+  setEmail: (email, hash) => dispatch(getEmail(email, hash)),
 });
 
-export default connect()(GravatarLogin);
+export default connect(null, mapDispatchToProps)(GravatarLogin);

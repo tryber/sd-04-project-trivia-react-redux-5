@@ -8,9 +8,9 @@ class GameScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    const {  }
-  }
+  // componentDidMount() {
+  //   const {  }
+  // }
 
   render() {
     return (

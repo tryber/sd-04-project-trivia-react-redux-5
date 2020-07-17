@@ -1,30 +1,3 @@
-import gravatarApi from '../services/gravatarApi';
-import questionsApi from '../services/questionsApi';
-
-export const GRAVATAR_REQUEST = 'GRAVATAR_REQUEST';
-export const GRAVATAR_SUCCESS = 'GRAVATAR_SUCCESS';
-
-const gravatarRequest = () => ({
-  type: GRAVATAR_REQUEST,
-});
-
-const gravatarSuccess = (picture) => ({
-  type: GRAVATAR_SUCCESS,
-  picture,
-});
-
-export function getGravatarApi(hash) {
-  return (dispatch) => {
-    dispatch(gravatarRequest());
-
-    return gravatarApi(hash)
-      .then((picture) => dispatch(gravatarSuccess(picture)))
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-}
-
 // ---------------------- questionsActions --------------------------
 export const QUESTIONS_REQUEST = 'QUESTIONS_REQUEST';
 export const QUESTIONS_SUCCESS = 'QUESTIONS_SUCCESS';
@@ -38,15 +11,20 @@ const questionsSuccess = (questions) => ({
   questions,
 });
 
-export function getQuestionsApi(token) {
-  return (dispatch) => {
-    dispatch(questionsRequest());
+// -------------------------userActions-------------------------------
 
-    return questionsApi(token)
-      .then((questions) => dispatch(questionsSuccess(questions.results)))
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-}
+export const GET_NAME = 'GET_NAME';
+export const GET_EMAIL = 'GET_EMAIL';
 
+export const getName = (name) => ({
+  type: GET_NAME,
+  payload: name,
+});
+
+export const getEmail = (email, hash) => ({
+  type: GET_EMAIL,
+  payload: {
+    email,
+    hash,
+  },
+});
