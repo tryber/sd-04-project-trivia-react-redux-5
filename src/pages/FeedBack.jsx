@@ -19,7 +19,7 @@ const FeedBack = () => {
         <Header />
       </div>
       <div>
-        <h1><strong>Feedback</strong></h1> 
+        <h1><strong>Feedback</strong></h1>
         <h3 data-testid="feedback-text">{feedbackText(assertions)}</h3>
         <h4>Pontuação <span data-testid="feedback-total-score">{score}</span></h4>
         <h4>Acertos <span data-testid="feedback-total-question">{assertions}</span></h4>

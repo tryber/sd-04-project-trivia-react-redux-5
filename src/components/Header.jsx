@@ -11,8 +11,8 @@ const Header = () => {
         alt="Player"
         src={userImagem}
       />
-      <div data-testid="header-player-name">{name}</div>
-      <div data-testid="header-score">{score}</div>
+      <div data-testid="header-player-name"><span>Jogador: </span>{name}</div>
+      <div data-testid="header-score"><span>Pontos: </span>{score}</div>
     </div>
   );
 }
