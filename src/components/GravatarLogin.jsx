@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import md5 from 'crypto-js/md5';
+import MD5 from 'crypto-js/md5';
 import { createPlayerInLocalStorage } from '../services/localStorageAPI';
 import tokenApi from '../services/tokenApi';
 
@@ -60,7 +60,7 @@ class GravatarLogin extends Component {
 
   createGravatar() {
     const { name, email } = this.state;
-    const hash = md5(email.toLowerCase());
+    const hash = MD5(email.toLowerCase()).toString();
     createPlayerInLocalStorage(name, hash);
   }
   
