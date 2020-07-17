@@ -1,4 +1,4 @@
-export const INITIAL_STORAGE_STATE = { player: { name: '', assertions: 0, score: 0, userImagem: '' }};
+export const INITIAL_STORAGE_STATE = { player: { name: '', assertions: 0, score: 0, userImagem: '' } };
 
 export const createPlayerInLocalStorage = (name, userImagem) => {
   const player = { ...INITIAL_STORAGE_STATE.player, userImagem, name };
