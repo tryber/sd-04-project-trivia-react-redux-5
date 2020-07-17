@@ -10,7 +10,7 @@ const feedbackText = (assertions) => {
 
 const FeedBack = () => {
   const { score, assertions } = this.props;
-  //nao é pros, mas nao descidimos ainda de onde vem
+  //  nao é pros, mas nao descidimos ainda de onde vem
 
   return (
     <div>
@@ -24,12 +24,12 @@ const FeedBack = () => {
           <h4>Pontuação <span data-testid="feedback-total-score">{score}</span></h4>
           <h4>Acertos <span data-testid="feedback-total-question">{assertions}</span></h4>
         </div>
-      <Link to="/" >
-        <button data-testid="btn-play-again">Jogar novamente</button>
-      </Link>
-      <Link to={'Ranking'}>
-        <button data-testid="btn-ranking">Ver Ranking</button>
-      </Link>
+        <Link to="/" >
+          <button data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
+        <Link to={'Ranking'}>
+          <button data-testid="btn-ranking">Ver Ranking</button>
+        </Link>
       </div>
     </div>
   );
