@@ -61,9 +61,9 @@ class GravatarLogin extends Component {
   createGravatar() {
     const { name, email } = this.state;
     const hash = MD5(email.toLowerCase()).toString();
-    createPlayerInLocalStorage(name, hash);
+    createPlayerInLocalStorage(name, `https://www.gravatar.com/avatar/${hash}`);
   }
-  
+
   render() {
     return (
       <form>

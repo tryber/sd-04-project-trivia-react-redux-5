@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
 
 class GameScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      quantidade: 4,
+    };
+    this.nextQuestion = this.nextQuestion.bind(this);
+  }
 
-  componentDidMount() {
-    
+  nextQuestion() {
+    const { quantidade } = this.state;
+    this.setState({ quantidade: quantidade - 1 });
   }
 
   render() {
+    const { quantidade } = this.state;
+
+    if (!quantidade) return (<Redirect to="/Feedback" />);
+    
     return (
       <div>
         <Header />
@@ -25,7 +38,11 @@ class GameScreen extends Component {
               Incorreta
             </button>
           </div>
-          <button data-testid="btn-next" type="button">
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={this.nextQuestion}
+          >
             Próxima
           </button>
         </div>

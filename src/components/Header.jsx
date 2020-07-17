@@ -1,31 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { INITIAL_STORAGE_STATE } from '../services/localStorageAPI';
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      src: '', 
-    }
-  }
-
-  componentDidMount() {
-    const { gravatarEmail } = JSON.parse(localStorage.getItem('state'));
-    this.setState({ src: `https://www.gravatar.com/avatar/${gravatarEmail}` });
-  }
-
-  render() {
-    const { src } = this.state;
-    return (
+const Header = () => {
+  const state = JSON.parse(localStorage.getItem('state')) || INITIAL_STORAGE_STATE;
+  const { name, userImagem, score } = state.player;
+  return (
     <div>
       <img
         data-testid="header-profile-picture"
         alt="Player"
-        src={src}
+        src={userImagem}
       />
-      <div data-testid="header-player-name"></div>
-      <div data-testid="header-score"></div>
-    </div>);    
-  } 
+      <div data-testid="header-player-name">{name}</div>
+      <div data-testid="header-score">{score}</div>
+    </div>
+  );
 }
 
 export default Header;

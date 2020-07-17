@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { INITIAL_STORAGE_STATE } from '../services/localStorageAPI';
 
 const feedbackText = (assertions) => {
   if (assertions < 3) return 'Podia ser melhor...';
@@ -8,16 +10,29 @@ const feedbackText = (assertions) => {
 };
 
 const FeedBack = () => {
-  <div>
+  const state = JSON.parse(localStorage.getItem('state')) || INITIAL_STORAGE_STATE;
+  const { score, assertions } = state.player;
+
+  return (
     <div>
-      <Header />
-    </div>
-    <div>
-      <h1><strong>Feedback</strong></h1>
       <div>
+        <Header />
+      </div>
+      <div>
+        <h1><strong>Feedback</strong></h1>
         <h3 data-testid="feedback-text">{feedbackText(assertions)}</h3>
+        <h4>Pontuação <span data-testid="feedback-total-score">{score}</span></h4>
+        <h4>Acertos <span data-testid="feedback-total-question">{assertions}</span></h4>
+
+        <Link to="/" >
+          <button data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
+        <Link to={'Ranking'}>
+          <button data-testid="btn-ranking">Ver Ranking</button>
+        </Link>
       </div>
     </div>
-
-  </div>
+  );
 }
+
+export default FeedBack;
