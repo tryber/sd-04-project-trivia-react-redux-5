@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { getName, getEmail } from '../actions';
 import { tokenApi } from '../services/tokenApi';
@@ -47,8 +48,8 @@ class GravatarLogin extends Component {
     const { name, email, token } = this.state;
     return (
       <div>
-        <img src={`https://www.gravatar.com/avatar/${token}`} />
-        <label htmlFor='name'>Digite seu nome</label>
+        <img src={`https://www.gravatar.com/avatar/${token}`} alt="gravatar cover" />
+        <label htmlFor="name">Digite seu nome</label>
         <input
           id="name"
           type="text"
@@ -64,7 +65,6 @@ class GravatarLogin extends Component {
         />
         <Link to="/GameScreen">
           <button
-            className="play-button"
             type="button"
             disabled={!name || !email}
             onClick={this.getInfo}
@@ -82,5 +82,10 @@ const mapDispatchToProps = (dispatch) => ({
   setName: (name) => dispatch(getName(name)),
   setEmail: (email, hash) => dispatch(getEmail(email, hash)),
 });
+
+GravatarLogin.PropTypes = {
+  setName: PropTypes.func.isRequired,
+  setEmail: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(GravatarLogin);

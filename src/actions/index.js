@@ -2,14 +2,14 @@
 export const QUESTIONS_REQUEST = 'QUESTIONS_REQUEST';
 export const QUESTIONS_SUCCESS = 'QUESTIONS_SUCCESS';
 
-const questionsRequest = () => ({
-  type: QUESTIONS_REQUEST,
-});
+// const questionsRequest = () => ({
+//   type: QUESTIONS_REQUEST,
+// });
 
-const questionsSuccess = (questions) => ({
-  type: QUESTIONS_SUCCESS,
-  questions,
-});
+// const questionsSuccess = (questions) => ({
+//   type: QUESTIONS_SUCCESS,
+//   questions,
+// });
 
 // -------------------------userActions-------------------------------
 

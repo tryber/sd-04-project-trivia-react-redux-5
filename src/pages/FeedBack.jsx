@@ -13,11 +13,12 @@ const FeedBack = () => {
       <Header />
     </div>
     <div>
-      <h1><strong>Feedback</strong></h1>
+      <h1>
+        <strong>Feedback</strong>
+      </h1>
       <div>
-        <h3 data-testid="feedback-text">{feedbackText(assertions)}</h3>
+        <h3 data-testid="feedback-text">ola</h3>
       </div>
     </div>
-
-  </div>
-}
+  </div>;
+};
