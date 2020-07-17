@@ -4,11 +4,11 @@ import Timer from '../components/Timer';
 import Header from '../components/Header';
 
 class GameScreen extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       quantidade: 4,
-    }
+    };
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
@@ -20,7 +20,7 @@ class GameScreen extends Component {
   render() {
     const { quantidade } = this.state;
 
-    if(!quantidade) return (<Redirect to="/Feedback" />);
+    if (!quantidade) return (<Redirect to="/Feedback" />);
     
     return (
       <div>
