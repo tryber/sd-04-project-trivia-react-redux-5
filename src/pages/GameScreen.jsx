@@ -13,7 +13,7 @@ class GameScreen extends Component {
   // }
 
   render() {
-    const {index} = this.state;
+    const { index } = this.state;
     return (
       <div>
         <div>
