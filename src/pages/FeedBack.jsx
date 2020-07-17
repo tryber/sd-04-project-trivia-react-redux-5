@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { INITIAL_STORAGE_STATE } from '../services/localStorageAPI';
 
 const feedbackText = (assertions) => {
   if (assertions < 3) return 'Podia ser melhor...';
@@ -9,8 +10,8 @@ const feedbackText = (assertions) => {
 };
 
 const FeedBack = () => {
-  const { score = 5 , assertions = 3 } = this.props;
-  //  nao é pros, mas nao descidimos ainda de onde vem
+  const state = JSON.parse(localStorage.getItem('state')) || INITIAL_STORAGE_STATE;
+  const { score, assertions } = state.player;
 
   return (
     <div>

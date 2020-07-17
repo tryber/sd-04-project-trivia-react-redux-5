@@ -1,4 +1,3 @@
-import gravatarApi from '../services/gravatarApi';
 import questionsApi from '../services/questionsApi';
 
 export const GRAVATAR_REQUEST = 'GRAVATAR_REQUEST';
@@ -13,17 +12,6 @@ const gravatarSuccess = (picture) => ({
   picture,
 });
 
-export function getGravatarApi(hash) {
-  return (dispatch) => {
-    dispatch(gravatarRequest());
-
-    return gravatarApi(hash)
-      .then((picture) => dispatch(gravatarSuccess(picture)))
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-}
 
 // ---------------------- questionsActions --------------------------
 export const QUESTIONS_REQUEST = 'QUESTIONS_REQUEST';

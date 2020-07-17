@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import gravatarApi from '../services/gravatarApi';
-import md5 from 'crypto-js/md5';
+import MD5 from 'crypto-js/md5';
 import { createPlayerInLocalStorage } from '../services/localStorageAPI';
+import tokenApi from '../services/tokenApi';
 
 class GravatarLogin extends Component {
   constructor(props) {
@@ -13,6 +12,13 @@ class GravatarLogin extends Component {
       email: '',
     };
     this.getValue = this.getValue.bind(this);
+  }
+
+  componentDidMount() {
+    tokenApi().then((resposta) => {
+      const reqResponse = resposta.response_code;
+      if (reqResponse === 0) localStorage.setItem('token', resposta.token);
+    });
   }
 
   getValue(e) {
@@ -54,9 +60,8 @@ class GravatarLogin extends Component {
 
   createGravatar() {
     const { name, email } = this.state;
-    const hash = md5(email.toLowerCase());
-
-    createPlayerInLocalStorage(name, hash);
+    const hash = MD5(email.toLowerCase()).toString();
+    createPlayerInLocalStorage(name, `https://www.gravatar.com/avatar/${hash}`);
   }
 
   render() {
@@ -79,8 +84,5 @@ class GravatarLogin extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  configImage: () => dispatch(gravatarApi()),
-});
 
-export default connect()(GravatarLogin);
+export default GravatarLogin;
