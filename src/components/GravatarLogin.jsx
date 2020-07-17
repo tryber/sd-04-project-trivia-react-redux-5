@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { getName, getEmail } from '../actions';
-import { tokenApi } from '../services/tokenApi';
+import tokenApi from '../services/tokenApi';
 
 class GravatarLogin extends Component {
   constructor(props) {
