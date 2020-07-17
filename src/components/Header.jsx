@@ -7,8 +7,8 @@ class Header extends Component {
     return (
       <div>
         <img data-testid="header-profile-picture" alt="Player" src={imagem} />
-        <div data-testid="header-player-name"></div>
-        <div data-testid="header-score"></div>
+        <div data-testid="header-player-name">teste</div>
+        <div data-testid="header-score">teste</div>
       </div>
     );
   }

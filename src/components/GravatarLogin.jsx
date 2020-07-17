@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 import { getName, getEmail } from '../actions';
 import { tokenApi } from '../services/tokenApi';
@@ -65,7 +65,6 @@ class GravatarLogin extends Component {
         />
         <Link to="/GameScreen">
           <button
-            type="button"
             disabled={!name || !email}
             onClick={this.getInfo}
             data-testid="btn-play"
@@ -83,9 +82,9 @@ const mapDispatchToProps = (dispatch) => ({
   setEmail: (email, hash) => dispatch(getEmail(email, hash)),
 });
 
-GravatarLogin.PropTypes = {
-  setName: PropTypes.func.isRequired,
-  setEmail: PropTypes.func.isRequired,
+GravatarLogin.propTypes = {
+  setName: propTypes.func.isRequired,
+  setEmail: propTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(GravatarLogin);

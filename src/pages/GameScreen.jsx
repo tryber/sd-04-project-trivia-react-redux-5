@@ -4,7 +4,7 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      index: 0,
     };
   }
 
@@ -13,6 +13,7 @@ class GameScreen extends Component {
   // }
 
   render() {
+    const {index} = this.state;
     return (
       <div>
         <div>
@@ -20,10 +21,16 @@ class GameScreen extends Component {
           <p data-testid="question-text">Aqui vai o texto da pergunta</p>
         </div>
         <div>
-          <button type="button" data-testid="correct-answer">Correta</button>
-          <button type="button" data-testid="`wrong-answer-${index}`">Incorreta</button>
+          <button type="button" data-testid="correct-answer">
+            Correta
+          </button>
+          <button type="button" data-testid={`wrong-answer-${index}`}>
+            Incorreta
+          </button>
         </div>
-        <button data-testid="btn-next" type="button">Próxima</button>
+        <button data-testid="btn-next" type="button">
+          Próxima
+        </button>
       </div>
     );
   }
