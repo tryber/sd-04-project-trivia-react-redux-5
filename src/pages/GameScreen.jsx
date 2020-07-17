@@ -8,10 +8,6 @@ class GameScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    const {  }
-  }
-
   render() {
     return (
       <div>

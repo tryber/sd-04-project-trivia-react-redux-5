@@ -15,7 +15,7 @@ class Header extends Component {
         <div data-testid="header-score"></div>
       </div>
     );
-  } 
+  }
 }
 
 export default Header;
