@@ -14,8 +14,8 @@ class GameScreen extends Component {
       position: 0,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.embaralhar = this.embaralhar.bind(this);
-    this.carregaBotoes = this.carregaBotoes.bind(this);
+    // this.embaralhar = this.embaralhar.bind(this);
+    // this.carregaBotoes = this.carregaBotoes.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +37,7 @@ class GameScreen extends Component {
   //   });
   // }
 
-  carregaBotoes(respostas, correct) {
+  static carregaBotoes(respostas, correct) {
     return respostas.map((alternativa) =>
       (alternativa === correct ? (
         <button key={alternativa} type="button" data-testid="correct-answer">
@@ -51,7 +51,7 @@ class GameScreen extends Component {
     );
   }
 
-  embaralhar(array) {
+  static embaralhar(array) {
     let indiceAtual = array.length,
       valorTemporario,
       indiceAleatorio;
@@ -69,7 +69,7 @@ class GameScreen extends Component {
     const { position } = this.state;
     const { questions } = this.props;
     const correctResp = questions[position].correct_answer;
-    const respostas = this.embaralhar([
+    const respostas = GameScreen.embaralhar([
       ...questions[position].incorrect_answers,
       correctResp,
     ]);
@@ -79,7 +79,7 @@ class GameScreen extends Component {
           <h3 data-testid="question-category">{questions[position].category}</h3>
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
-        {this.carregaBotoes(respostas, correctResp)}
+        {GameScreen.carregaBotoes(respostas, correctResp)}
         <button data-testid="btn-next" type="button" onClick={this.nextQuestion}>
           Próxima
         </button>
