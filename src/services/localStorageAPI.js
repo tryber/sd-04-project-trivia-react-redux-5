@@ -5,3 +5,4 @@ export const createPlayerInLocalStorage = (name, userImagem) => {
   console.log(player);
   localStorage.setItem('state', JSON.stringify({ player }));
 };
+//  UP TO DATE
