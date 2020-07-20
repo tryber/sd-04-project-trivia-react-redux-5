@@ -15,6 +15,7 @@ class GameScreen extends Component {
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.embaralhar = this.embaralhar.bind(this);
+    this.carregaBotoes = this.carregaBotoes.bind(this);
   }
 
   componentDidMount() {
@@ -38,7 +39,7 @@ class GameScreen extends Component {
 
   carregaBotoes(respostas, correct) {
     return respostas.map((alternativa) =>
-      alternativa === correct ? (
+      (alternativa === correct ? (
         <button key={alternativa} type="button" data-testid="correct-answer">
           {alternativa}
         </button>
@@ -46,7 +47,7 @@ class GameScreen extends Component {
         <button key={alternativa} type="button" data-testid="wrong-answer-index">
           {alternativa}
         </button>
-      ),
+      )),
     );
   }
 
