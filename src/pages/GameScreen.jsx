@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
-import { connect } from 'react-redux';
 import { getQuestionsApi } from '../actions';
 
 class GameScreen extends Component {
@@ -14,12 +14,13 @@ class GameScreen extends Component {
       position: 0,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.embaralhar = this.embaralhar.bind(this);
   }
 
   componentDidMount() {
-    const { getQuestionsApi } = this.props;
+    const { pegaPerguntas } = this.props;
     const token = localStorage.getItem('token');
-    getQuestionsApi(token);
+    pegaPerguntas(token);
   }
 
   nextQuestion() {
@@ -35,16 +36,30 @@ class GameScreen extends Component {
   //   });
   // }
 
+  carregaBotoes(respostas, correct) {
+    return respostas.map((alternativa) =>
+      alternativa === correct ? (
+        <button key={alternativa} type="button" data-testid="correct-answer">
+          {alternativa}
+        </button>
+      ) : (
+        <button key={alternativa} type="button" data-testid="wrong-answer-index">
+          {alternativa}
+        </button>
+      ),
+    );
+  }
+
   embaralhar(array) {
-    var indice_atual = array.length,
-      valor_temporario,
-      indice_aleatorio;
-    while (0 !== indice_atual) {
-      indice_aleatorio = Math.floor(Math.random() * indice_atual);
-      indice_atual -= 1;
-      valor_temporario = array[indice_atual];
-      array[indice_atual] = array[indice_aleatorio];
-      array[indice_aleatorio] = valor_temporario;
+    let indiceAtual = array.length,
+      valorTemporario,
+      indiceAleatorio;
+    while (indiceAtual !== 0) {
+      indiceAleatorio = Math.floor(Math.random() * indiceAtual);
+      indiceAtual -= 1;
+      valorTemporario = array[indiceAtual];
+      array[indiceAtual] = array[indiceAleatorio];
+      array[indiceAleatorio] = valorTemporario;
     }
     return array;
   }
@@ -55,29 +70,15 @@ class GameScreen extends Component {
     const correctResp = questions[position].correct_answer;
     const respostas = this.embaralhar([
       ...questions[position].incorrect_answers,
-      questions[position].correct_answer,
+      correctResp,
     ]);
-    if (questions[position].type === 'multiple') {
-    }
     return (
       <div>
         <div>
           <h3 data-testid="question-category">{questions[position].category}</h3>
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
-        {questions[position].type === 'multiple'
-          ? 'aqui vai um map'
-          : respostas.map((alternativa, index) =>
-              alternativa === correctResp ? (
-                <button key={index} type="button" data-testid="correct-answer">
-                  Correta
-                </button>
-              ) : (
-                <button key={index} type="button" data-testid="wrong-answer-index">
-                  Incorreta
-                </button>
-              ),
-            )}
+        {this.carregaBotoes(respostas, correctResp)}
         <button data-testid="btn-next" type="button" onClick={this.nextQuestion}>
           Próxima
         </button>
@@ -109,11 +110,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestionsApi: (token) => dispatch(getQuestionsApi(token)),
+  pegaPerguntas: (token) => dispatch(getQuestionsApi(token)),
 });
 
 GameScreen.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  pegaPerguntas: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
