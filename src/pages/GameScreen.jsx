@@ -27,23 +27,57 @@ class GameScreen extends Component {
     this.setState({ quantidade: quantidade - 1 });
   }
 
+  // embaralhaPerguntas(certa, erradas) {
+  //   const embaralhadas = [...Array(erradas.length + 1).fill('')];
+  //   embaralhadas[parseInt(Math.random() * 5)] = certa;
+  //   embaralhadas.forEach((pergunta) => {
+  //     if (pergunta === '')
+  //   });
+  // }
+
+  embaralhar(array) {
+    var indice_atual = array.length,
+      valor_temporario,
+      indice_aleatorio;
+    while (0 !== indice_atual) {
+      indice_aleatorio = Math.floor(Math.random() * indice_atual);
+      indice_atual -= 1;
+      valor_temporario = array[indice_atual];
+      array[indice_atual] = array[indice_aleatorio];
+      array[indice_aleatorio] = valor_temporario;
+    }
+    return array;
+  }
+
   renderQuestions() {
     const { position } = this.state;
     const { questions } = this.props;
+    const correctResp = questions[position].correct_answer;
+    const respostas = this.embaralhar([
+      ...questions[position].incorrect_answers,
+      questions[position].correct_answer,
+    ]);
+    if (questions[position].type === 'multiple') {
+    }
     return (
       <div>
         <div>
           <h3 data-testid="question-category">{questions[position].category}</h3>
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
-        <div>
-          <button type="button" data-testid="correct-answer">
-            Correta
-          </button>
-          <button type="button" data-testid="wrong-answer-index">
-            Incorreta
-          </button>
-        </div>
+        {questions[position].type === 'multiple'
+          ? 'aqui vai um map'
+          : respostas.map((alternativa, index) =>
+              alternativa === correctResp ? (
+                <button key={index} type="button" data-testid="correct-answer">
+                  Correta
+                </button>
+              ) : (
+                <button key={index} type="button" data-testid="wrong-answer-index">
+                  Incorreta
+                </button>
+              ),
+            )}
         <button data-testid="btn-next" type="button" onClick={this.nextQuestion}>
           Próxima
         </button>
