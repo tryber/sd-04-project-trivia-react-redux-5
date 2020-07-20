@@ -22,7 +22,7 @@ class GameScreen extends Component {
   }
 
   static embaralhar(array) {
-    let newArray = [...array];
+    const newArray = [...array];
     let indiceAtual = array.length;
     let valorTemporario = 0;
     let indiceAleatorio = 0;
@@ -118,7 +118,7 @@ GameScreen.propTypes = {
   pegaPerguntas: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(
     PropTypes.string,
-  ),
+  ).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
