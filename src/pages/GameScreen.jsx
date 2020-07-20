@@ -1,15 +1,54 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
+import { getQuestionsApi } from '../actions';
 
 class GameScreen extends Component {
+  static carregaBotoes(respostas, correct) {
+    return respostas.map((alternativa) =>
+      (alternativa === correct ? (
+        <button key={alternativa} type="button" data-testid="correct-answer">
+          {alternativa}
+        </button>
+      ) : (
+        <button key={alternativa} type="button" data-testid="wrong-answer-index">
+          {alternativa}
+        </button>
+      )),
+    );
+  }
+
+  static embaralhar(array) {
+    const newArray = [...array];
+    let indiceAtual = array.length;
+    let valorTemporario = 0;
+    let indiceAleatorio = 0;
+    while (indiceAtual !== 0) {
+      indiceAleatorio = Math.floor(Math.random() * indiceAtual);
+      indiceAtual -= 1;
+      valorTemporario = newArray[indiceAtual];
+      newArray[indiceAtual] = newArray[indiceAleatorio];
+      newArray[indiceAleatorio] = valorTemporario;
+    }
+    return array;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       quantidade: 4,
+      position: 0,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
+  }
+
+  componentDidMount() {
+    const { pegaPerguntas } = this.props;
+    const token = localStorage.getItem('token');
+    pegaPerguntas(token);
   }
 
   nextQuestion() {
@@ -17,39 +56,69 @@ class GameScreen extends Component {
     this.setState({ quantidade: quantidade - 1 });
   }
 
+  // embaralhaPerguntas(certa, erradas) {
+  //   const embaralhadas = [...Array(erradas.length + 1).fill('')];
+  //   embaralhadas[parseInt(Math.random() * 5)] = certa;
+  //   embaralhadas.forEach((pergunta) => {
+  //     if (pergunta === '')
+  //   });
+  // }
+
+  renderQuestions() {
+    const { position } = this.state;
+    const { questions } = this.props;
+    const correctResp = questions[position].correct_answer;
+    const respostas = GameScreen.embaralhar([
+      ...questions[position].incorrect_answers,
+      correctResp,
+    ]);
+    return (
+      <div>
+        <div>
+          <h3 data-testid="question-category">{questions[position].category}</h3>
+          <p data-testid="question-text">{questions[position].question}</p>
+        </div>
+        {GameScreen.carregaBotoes(respostas, correctResp)}
+        <button data-testid="btn-next" type="button" onClick={this.nextQuestion}>
+          Próxima
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const { quantidade } = this.state;
+    const { isFetching } = this.props;
 
-    if (!quantidade) return (<Redirect to="/Feedback" />);
-    
+    if (isFetching) return <div>Loading...</div>;
+
+    if (!quantidade) return <Redirect to="/Feedback" />;
+
     return (
       <div>
         <Header />
-        <div>
-          <div>
-            <h3 data-testid="question-category">Aqui vai a categoria</h3>
-            <p data-testid="question-text">Aqui vai o texto da pergunta</p>
-          </div>
-          <div>
-            <button type="button" data-testid="correct-answer">
-              Correta
-            </button>
-            <button type="button" data-testid="`wrong-answer-${index}`">
-              Incorreta
-            </button>
-          </div>
-          <button
-            data-testid="btn-next"
-            type="button"
-            onClick={this.nextQuestion}
-          >
-            Próxima
-          </button>
-        </div>
+        {this.renderQuestions()}
         <Timer />
       </div>
     );
   }
 }
 
-export default GameScreen;
+const mapStateToProps = (state) => ({
+  isFetching: state.questionReducer.isFetching,
+  questions: state.questionReducer.questions,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  pegaPerguntas: (token) => dispatch(getQuestionsApi(token)),
+});
+
+GameScreen.propTypes = {
+  isFetching: PropTypes.bool.isRequired,
+  pegaPerguntas: PropTypes.func.isRequired,
+  questions: PropTypes.arrayOf(
+    PropTypes.string,
+  ).isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
