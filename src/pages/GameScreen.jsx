@@ -7,6 +7,35 @@ import Header from '../components/Header';
 import { getQuestionsApi } from '../actions';
 
 class GameScreen extends Component {
+  static carregaBotoes(respostas, correct) {
+    return respostas.map((alternativa) =>
+      (alternativa === correct ? (
+        <button key={alternativa} type="button" data-testid="correct-answer">
+          {alternativa}
+        </button>
+      ) : (
+        <button key={alternativa} type="button" data-testid="wrong-answer-index">
+          {alternativa}
+        </button>
+      )),
+    );
+  }
+
+  static embaralhar(array) {
+    let newArray = [...array];
+    let indiceAtual = array.length;
+    let valorTemporario = 0;
+    let indiceAleatorio = 0;
+    while (indiceAtual !== 0) {
+      indiceAleatorio = Math.floor(Math.random() * indiceAtual);
+      indiceAtual -= 1;
+      valorTemporario = newArray[indiceAtual];
+      newArray[indiceAtual] = newArray[indiceAleatorio];
+      newArray[indiceAleatorio] = valorTemporario;
+    }
+    return array;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,8 +43,6 @@ class GameScreen extends Component {
       position: 0,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
-    // this.embaralhar = this.embaralhar.bind(this);
-    // this.carregaBotoes = this.carregaBotoes.bind(this);
   }
 
   componentDidMount() {
@@ -36,34 +63,6 @@ class GameScreen extends Component {
   //     if (pergunta === '')
   //   });
   // }
-
-  static carregaBotoes(respostas, correct) {
-    return respostas.map((alternativa) =>
-      (alternativa === correct ? (
-        <button key={alternativa} type="button" data-testid="correct-answer">
-          {alternativa}
-        </button>
-      ) : (
-        <button key={alternativa} type="button" data-testid="wrong-answer-index">
-          {alternativa}
-        </button>
-      )),
-    );
-  }
-
-  static embaralhar(array) {
-    let indiceAtual = array.length,
-      valorTemporario,
-      indiceAleatorio;
-    while (indiceAtual !== 0) {
-      indiceAleatorio = Math.floor(Math.random() * indiceAtual);
-      indiceAtual -= 1;
-      valorTemporario = array[indiceAtual];
-      array[indiceAtual] = array[indiceAleatorio];
-      array[indiceAleatorio] = valorTemporario;
-    }
-    return array;
-  }
 
   renderQuestions() {
     const { position } = this.state;
@@ -117,6 +116,9 @@ const mapDispatchToProps = (dispatch) => ({
 GameScreen.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   pegaPerguntas: PropTypes.func.isRequired,
+  questions: PropTypes.arrayOf(
+    PropTypes.string,
+  ),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
