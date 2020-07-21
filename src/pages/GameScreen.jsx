@@ -39,7 +39,6 @@ class GameScreen extends Component {
     pegaPerguntas(token);
   }
 
-
   enableButtons() {
     const { isDisabled } = this.state;
     this.setState({
@@ -47,15 +46,13 @@ class GameScreen extends Component {
     });
   }
 
-
-
   carregaBotoes(respostas, correct) {
     return respostas.map((alternativa) =>
-      alternativa === correct ? (
+      (alternativa === correct ? (
         <button
           key={alternativa}
-          type='button'
-          data-testid='correct-answer'
+          type="button"
+          data-testid="correct-answer"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
         >
@@ -64,27 +61,31 @@ class GameScreen extends Component {
       ) : (
         <button
           key={alternativa}
-          type='button'
-          data-testid='wrong-answer-index'
+          type="button"
+          data-testid="wrong-answer-index"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
         >
           {alternativa}
         </button>
-      )
+      )),
     );
   }
 
   nextQuestion() {
     const { quantidade, position } = this.state;
-    this.setState({ quantidade: quantidade - 1, position: position + 1, isDisabled: true });
+    this.setState({
+      quantidade: quantidade - 1,
+      position: position + 1,
+      isDisabled: true,
+    });
   }
 
   // embaralhaPerguntas(certa, erradas) {
-  //   const embaralhadas = [...Array(erradas.length + 1).fill('')];
+  //   const embaralhadas = [...Array(erradas.length + 1).fill(")];
   //   embaralhadas[parseInt(Math.random() * 5)] = certa;
   //   embaralhadas.forEach((pergunta) => {
-  //     if (pergunta === '')
+  //     if (pergunta === ")
   //   });
   // }
 
@@ -99,15 +100,15 @@ class GameScreen extends Component {
     return (
       <div>
         <div>
-          <h3 data-testid='question-category'>
+          <h3 data-testid="question-category">
             {questions[position].category}
           </h3>
-          <p data-testid='question-text'>{questions[position].question}</p>
+          <p data-testid="question-text">{questions[position].question}</p>
         </div>
         {this.carregaBotoes(respostas, correctResp)}
         <button
-          data-testid='btn-next'
-          type='button'
+          data-testid="btn-next"
+          type="button"
           onClick={this.nextQuestion}
           disabled={isDisabled}
         >
@@ -123,7 +124,7 @@ class GameScreen extends Component {
 
     if (isFetching) return <div>Loading...</div>;
 
-    if (!quantidade) return <Redirect to='/Feedback' />;
+    if (!quantidade) return <Redirect to="/Feedback" />;
 
     return (
       <div>
