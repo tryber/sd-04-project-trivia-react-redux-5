@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
 import { getQuestionsApi } from '../actions';
-import './GameScreen.css'
+import './GameScreen.css';
 
 
 class GameScreen extends Component {
@@ -61,7 +61,7 @@ class GameScreen extends Component {
           data-testid="correct-answer"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
-          className={this.state.classe ? 'correctAnswer': null}
+          className={this.state.classe ? 'correctAnswer' : null}
         >
           {alternativa}
         </button>
@@ -72,7 +72,7 @@ class GameScreen extends Component {
           data-testid="wrong-answer-index"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
-          className={this.state.classe ? 'incorrectAnswer': null}
+          className={this.state.classe ? 'incorrectAnswer' : null}
         >
           {alternativa}
         </button>
