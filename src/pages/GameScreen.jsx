@@ -28,6 +28,7 @@ class GameScreen extends Component {
       quantidade: 4,
       position: 0,
       isDisabled: true,
+      time: 30,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.enableButtons = this.enableButtons.bind(this);
@@ -46,11 +47,10 @@ class GameScreen extends Component {
     });
   }
 
-  
   carregaBotoes(respostas, correct) {
-    let index = 0;
+    // let index = 0;
     return respostas.map((alternativa) =>
-      (alternativa === correct ? (
+      alternativa === correct ? (
         <button
           key={alternativa}
           type="button"
@@ -70,7 +70,7 @@ class GameScreen extends Component {
         >
           {alternativa}
         </button>
-      )),
+      )
     );
   }
 
@@ -163,7 +163,7 @@ class GameScreen extends Component {
       <div>
         <Header />
         {this.renderQuestions()}
-        <Timer />
+        {/* <Timer /> */}
       </div>
     );
   }
