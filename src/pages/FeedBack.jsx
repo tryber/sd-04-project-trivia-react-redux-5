@@ -24,10 +24,10 @@ const FeedBack = () => {
         <h4>Pontuação <span data-testid="feedback-total-score">{score}</span></h4>
         <h4>Acertos <span data-testid="feedback-total-question">{assertions}</span></h4>
 
-        <Link to="/" >
+        <Link to="/GameScreen" >
           <button data-testid="btn-play-again">Jogar novamente</button>
         </Link>
-        <Link to={'Ranking'}>
+        <Link to="/Ranking">
           <button data-testid="btn-ranking">Ver Ranking</button>
         </Link>
       </div>
