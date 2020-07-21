@@ -39,10 +39,8 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantidade: 4,
       position: 0,
     };
-    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -50,19 +48,6 @@ class GameScreen extends Component {
     const token = localStorage.getItem('token');
     pegaPerguntas(token);
   }
-
-  nextQuestion() {
-    const { quantidade } = this.state;
-    this.setState({ quantidade: quantidade - 1 });
-  }
-
-  // embaralhaPerguntas(certa, erradas) {
-  //   const embaralhadas = [...Array(erradas.length + 1).fill('')];
-  //   embaralhadas[parseInt(Math.random() * 5)] = certa;
-  //   embaralhadas.forEach((pergunta) => {
-  //     if (pergunta === '')
-  //   });
-  // }
 
   renderQuestions() {
     const { position } = this.state;
@@ -72,6 +57,9 @@ class GameScreen extends Component {
       ...questions[position].incorrect_answers,
       correctResp,
     ]);
+
+    if (questions === null) return <Redirect to="/feedback" />;
+
     return (
       <div>
         <div>
@@ -87,12 +75,9 @@ class GameScreen extends Component {
   }
 
   render() {
-    const { quantidade } = this.state;
     const { isFetching } = this.props;
 
     if (isFetching) return <div>Loading...</div>;
-
-    if (!quantidade) return <Redirect to="/Feedback" />;
 
     return (
       <div>
