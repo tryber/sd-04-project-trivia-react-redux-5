@@ -137,7 +137,9 @@ class GameScreen extends Component {
     ]);
 
     if (redirect) return <Redirect to="/feedback" />;
-
+    console.log('correctResp', correctResp);
+    console.log('incorrectsResp', incorrectsResp);
+    console.log('respostas', respostas);
     return (
       <div>
         <div>
@@ -147,14 +149,13 @@ class GameScreen extends Component {
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
         {this.carregaBotoes(respostas, correctResp, incorrectsResp)}
-        <button
+        {!isDisabled && (<button
           data-testid="btn-next"
           type="button"
           onClick={this.nextQuestion}
-          disabled={isDisabled}
         >
           Próxima
-        </button>
+        </button>)}
       </div>
     );
   }
