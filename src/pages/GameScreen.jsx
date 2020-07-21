@@ -25,8 +25,8 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantidade: 4,
       position: 0,
+      redirect: false,
       isDisabled: true,
       time: 30,
     };
@@ -105,12 +105,17 @@ class GameScreen extends Component {
   // }
 
   nextQuestion() {
-    const { quantidade, position } = this.state;
-    this.setState({
-      quantidade: quantidade - 1,
-      position: position + 1,
-      isDisabled: true,
-    });
+    const { position } = this.state;
+    if (position < 4) {
+      this.setState({
+        position: position + 1,
+        isDisabled: true,
+      });
+    } else {
+      this.setState({
+        redirect: true,
+      });
+    }
   }
 
   // embaralhaPerguntas(certa, erradas) {
@@ -122,7 +127,7 @@ class GameScreen extends Component {
   // }
 
   renderQuestions() {
-    const { position, isDisabled } = this.state;
+    const { position, isDisabled, redirect } = this.state;
     const { questions } = this.props;
     const correctResp = questions[position].correct_answer;
     const incorrectsResp = questions[position].incorrect_answers;
@@ -130,6 +135,11 @@ class GameScreen extends Component {
       ...questions[position].incorrect_answers,
       correctResp,
     ]);
+
+    if (redirect) return <Redirect to="/feedback" />;
+    console.log('correctResp', correctResp);
+    console.log('incorrectsResp', incorrectsResp);
+    console.log('respostas', respostas);
     return (
       <div>
         <div>
@@ -139,25 +149,21 @@ class GameScreen extends Component {
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
         {this.carregaBotoes(respostas, correctResp, incorrectsResp)}
-        <button
+        {!isDisabled && (<button
           data-testid="btn-next"
           type="button"
           onClick={this.nextQuestion}
-          disabled={isDisabled}
         >
           Próxima
-        </button>
+        </button>)}
       </div>
     );
   }
 
   render() {
-    const { quantidade } = this.state;
     const { isFetching } = this.props;
 
     if (isFetching) return <div>Loading...</div>;
-
-    if (!quantidade) return <Redirect to="/Feedback" />;
 
     return (
       <div>
