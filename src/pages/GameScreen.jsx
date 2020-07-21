@@ -58,7 +58,7 @@ class GameScreen extends Component {
       correctResp,
     ]);
 
-    if (questions === null) return <Redirect to="/feedback" />;
+    if (questions[position] === null) return <Redirect to="/feedback" />;
 
     return (
       <div>
