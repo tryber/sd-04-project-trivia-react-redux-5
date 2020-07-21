@@ -111,11 +111,10 @@ class GameScreen extends Component {
         position: position + 1,
         isDisabled: true,
       });
-    }
-    else {
+    } else {
       this.setState({
         redirect: true,
-      })
+      });
     }
   }
 
