@@ -7,20 +7,6 @@ import Header from '../components/Header';
 import { getQuestionsApi } from '../actions';
 
 class GameScreen extends Component {
-  static carregaBotoes(respostas, correct) {
-    return respostas.map((alternativa) =>
-      (alternativa === correct ? (
-        <button key={alternativa} type="button" data-testid="correct-answer">
-          {alternativa}
-        </button>
-      ) : (
-        <button key={alternativa} type="button" data-testid="wrong-answer-index">
-          {alternativa}
-        </button>
-      )),
-    );
-  }
-
   static embaralhar(array) {
     const newArray = [...array];
     let indiceAtual = array.length;
@@ -41,8 +27,10 @@ class GameScreen extends Component {
     this.state = {
       quantidade: 4,
       position: 0,
+      isDisabled: true,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.enableButtons = this.enableButtons.bind(this);
   }
 
   componentDidMount() {
@@ -51,9 +39,45 @@ class GameScreen extends Component {
     pegaPerguntas(token);
   }
 
+
+  enableButtons() {
+    const { isDisabled } = this.state;
+    this.setState({
+      isDisabled: !isDisabled,
+    });
+  }
+
+
+
+  carregaBotoes(respostas, correct) {
+    return respostas.map((alternativa) =>
+      alternativa === correct ? (
+        <button
+          key={alternativa}
+          type='button'
+          data-testid='correct-answer'
+          onClick={() => this.enableButtons()}
+          disabled={!this.state.isDisabled}
+        >
+          {alternativa}
+        </button>
+      ) : (
+        <button
+          key={alternativa}
+          type='button'
+          data-testid='wrong-answer-index'
+          onClick={() => this.enableButtons()}
+          disabled={!this.state.isDisabled}
+        >
+          {alternativa}
+        </button>
+      )
+    );
+  }
+
   nextQuestion() {
-    const { quantidade } = this.state;
-    this.setState({ quantidade: quantidade - 1 });
+    const { quantidade, position } = this.state;
+    this.setState({ quantidade: quantidade - 1, position: position + 1, isDisabled: true });
   }
 
   // embaralhaPerguntas(certa, erradas) {
@@ -65,7 +89,7 @@ class GameScreen extends Component {
   // }
 
   renderQuestions() {
-    const { position } = this.state;
+    const { position, isDisabled } = this.state;
     const { questions } = this.props;
     const correctResp = questions[position].correct_answer;
     const respostas = GameScreen.embaralhar([
@@ -75,11 +99,18 @@ class GameScreen extends Component {
     return (
       <div>
         <div>
-          <h3 data-testid="question-category">{questions[position].category}</h3>
-          <p data-testid="question-text">{questions[position].question}</p>
+          <h3 data-testid='question-category'>
+            {questions[position].category}
+          </h3>
+          <p data-testid='question-text'>{questions[position].question}</p>
         </div>
-        {GameScreen.carregaBotoes(respostas, correctResp)}
-        <button data-testid="btn-next" type="button" onClick={this.nextQuestion}>
+        {this.carregaBotoes(respostas, correctResp)}
+        <button
+          data-testid='btn-next'
+          type='button'
+          onClick={this.nextQuestion}
+          disabled={isDisabled}
+        >
           Próxima
         </button>
       </div>
@@ -92,7 +123,7 @@ class GameScreen extends Component {
 
     if (isFetching) return <div>Loading...</div>;
 
-    if (!quantidade) return <Redirect to="/Feedback" />;
+    if (!quantidade) return <Redirect to='/Feedback' />;
 
     return (
       <div>
@@ -116,9 +147,7 @@ const mapDispatchToProps = (dispatch) => ({
 GameScreen.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   pegaPerguntas: PropTypes.func.isRequired,
-  questions: PropTypes.arrayOf(
-    PropTypes.string,
-  ).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
