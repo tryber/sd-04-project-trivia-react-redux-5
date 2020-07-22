@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
 import { getQuestionsApi } from '../actions';
+import './GameScreen.css';
+
 
 class GameScreen extends Component {
   static embaralhar(array) {
@@ -19,7 +21,7 @@ class GameScreen extends Component {
       newArray[indiceAtual] = newArray[indiceAleatorio];
       newArray[indiceAleatorio] = valorTemporario;
     }
-    return array;
+    return newArray;
   }
 
   constructor(props) {
@@ -29,6 +31,7 @@ class GameScreen extends Component {
       redirect: false,
       isDisabled: true,
       time: 30,
+      classe: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.enableButtons = this.enableButtons.bind(this);
@@ -44,6 +47,7 @@ class GameScreen extends Component {
     const { isDisabled } = this.state;
     this.setState({
       isDisabled: !isDisabled,
+      classe: true
     });
   }
 
@@ -57,6 +61,7 @@ class GameScreen extends Component {
           data-testid="correct-answer"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
+          className={this.state.classe ? 'correctAnswer' : null}
         >
           {alternativa}
         </button>
@@ -67,6 +72,7 @@ class GameScreen extends Component {
           data-testid="wrong-answer-index"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
+          className={this.state.classe ? 'incorrectAnswer' : null}
         >
           {alternativa}
         </button>
@@ -110,6 +116,7 @@ class GameScreen extends Component {
       this.setState({
         position: position + 1,
         isDisabled: true,
+        classe: false,
       });
     } else {
       this.setState({
