@@ -42,7 +42,7 @@ class GameScreen extends Component {
     const token = localStorage.getItem('token');
     pegaPerguntas(token);
   }
-  
+
   enableButtons() {
     const { isDisabled } = this.state;
     this.setState({
