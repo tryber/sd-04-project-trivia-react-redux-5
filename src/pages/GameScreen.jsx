@@ -100,14 +100,10 @@ class GameScreen extends Component {
     const { position, isDisabled, redirect } = this.state;
     const { questions } = this.props;
     const correctResp = questions[position].correct_answer;
-    const incorrectsResp = questions[position].incorrect_answers;
     const respostas = GameScreen.embaralhar([
       ...questions[position].incorrect_answers,
       correctResp,
     ]);
-
-    console.log("correta", correctResp)
-    console.log("respostas", respostas)
 
     if (redirect) return <Redirect to="/feedback" />;
 
@@ -120,7 +116,6 @@ class GameScreen extends Component {
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
         {this.carregaBotoes(respostas, correctResp)}
-        {/* {!isDisabled && this.carregaBotoes(respostas, correctResp, "3px solid rgb(6, 240, 15)", "3px solid rgb(255, 0, 0)")} */}
         {!isDisabled && (<button
           data-testid="btn-next"
           type="button"
