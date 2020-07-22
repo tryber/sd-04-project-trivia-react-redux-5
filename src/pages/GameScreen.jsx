@@ -19,7 +19,7 @@ class GameScreen extends Component {
       newArray[indiceAtual] = newArray[indiceAleatorio];
       newArray[indiceAleatorio] = valorTemporario;
     }
-    return array;
+    return newArray;
   }
 
   constructor(props) {
@@ -39,7 +39,7 @@ class GameScreen extends Component {
     const token = localStorage.getItem('token');
     pegaPerguntas(token);
   }
-
+  
   enableButtons() {
     const { isDisabled } = this.state;
     this.setState({
@@ -47,13 +47,13 @@ class GameScreen extends Component {
     });
   }
 
-  carregaBotoes(respostas, correct) {
-    // let index = 0;
+  carregaBotoes(respostas, correct, colorCorrect, colorIncorrect) {
     return respostas.map((alternativa) =>
       alternativa === correct ? (
         <button
           key={alternativa}
           type="button"
+          style={{ border: colorCorrect }}
           data-testid="correct-answer"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
@@ -64,6 +64,7 @@ class GameScreen extends Component {
         <button
           key={alternativa}
           type="button"
+          style={{ border: colorIncorrect }}
           data-testid="wrong-answer-index"
           onClick={() => this.enableButtons()}
           disabled={!this.state.isDisabled}
@@ -73,36 +74,6 @@ class GameScreen extends Component {
       )
     );
   }
-
-  // carregaBotoes(respostas, correct) {
-  //   let index = 0;
-  //   return respostas.map((alternativa) => {
-  //     if (alternativa === correct) {
-  //       return (
-  //         <button
-  //           key={alternativa}
-  //           type="button"
-  //           data-testid="correct-answer"
-  //           onClick={() => this.enableButtons()}
-  //           disabled={!this.state.isDisabled}
-  //         >
-  //           {alternativa}
-  //         </button>
-  //       );
-  //     } else {
-  //       (<button
-  //         key={alternativa}
-  //         type="button"
-  //         data-testid={`wrong-answer-${index}`}
-  //         onClick={() => this.enableButtons()}
-  //         disabled={!this.state.isDisabled}
-  //       >
-  //         {alternativa}
-  //       </button>
-  //       {index += 1})
-  //     }
-  //   })
-  // }
 
   nextQuestion() {
     const { position } = this.state;
@@ -118,14 +89,6 @@ class GameScreen extends Component {
     }
   }
 
-  // embaralhaPerguntas(certa, erradas) {
-  //   const embaralhadas = [...Array(erradas.length + 1).fill(")];
-  //   embaralhadas[parseInt(Math.random() * 5)] = certa;
-  //   embaralhadas.forEach((pergunta) => {
-  //     if (pergunta === ")
-  //   });
-  // }
-
   renderQuestions() {
     const { position, isDisabled, redirect } = this.state;
     const { questions } = this.props;
@@ -136,10 +99,11 @@ class GameScreen extends Component {
       correctResp,
     ]);
 
+    console.log("correta", correctResp)
+    console.log("respostas", respostas)
+
     if (redirect) return <Redirect to="/feedback" />;
-    console.log('correctResp', correctResp);
-    console.log('incorrectsResp', incorrectsResp);
-    console.log('respostas', respostas);
+
     return (
       <div>
         <div>
@@ -148,7 +112,8 @@ class GameScreen extends Component {
           </h3>
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
-        {this.carregaBotoes(respostas, correctResp, incorrectsResp)}
+        {this.carregaBotoes(respostas, correctResp)}
+        {/* {!isDisabled && this.carregaBotoes(respostas, correctResp, "3px solid rgb(6, 240, 15)", "3px solid rgb(255, 0, 0)")} */}
         {!isDisabled && (<button
           data-testid="btn-next"
           type="button"
