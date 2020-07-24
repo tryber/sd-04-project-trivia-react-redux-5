@@ -13,7 +13,7 @@ class Timer extends React.Component {
   componentDidMount() {
     this.getTimer();
   }
-//so para dar um commit
+//  so para dar um commit
   getTimer() {
     const { time } = this.state;
     setTimeout(() => {
