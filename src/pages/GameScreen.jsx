@@ -30,7 +30,7 @@ class GameScreen extends Component {
       position: 0,
       redirect: false,
       isDisabled: true,
-      time: 30,
+      // time: 30,
       classe: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -129,7 +129,8 @@ class GameScreen extends Component {
   }
 
   render() {
-    const { isFetching } = this.props;
+    const { isFetching, time } = this.props;
+    if (time === 0) this.enableButtons();
 
     if (isFetching) return <div>Loading...</div>;
 
@@ -146,6 +147,7 @@ class GameScreen extends Component {
 const mapStateToProps = (state) => ({
   isFetching: state.questionReducer.isFetching,
   questions: state.questionReducer.questions,
+  time: state.timerReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({

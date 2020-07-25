@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { timeCount } from '../actions/TimeAction';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -16,11 +17,13 @@ class Timer extends React.Component {
   }
 
   getTimer() {
-    const { time } = this.state;
+    // const { time } = this.state;
+    const { time, setTime } = this.props;
     setTimeout(() => {
-      this.setState({
-        time: time - 1,
-      });
+      // this.setState({
+      //   time: time - 1,
+      // });
+      setTime();
       if (time === 0) return this.endTimer(time);
       return this.getTimer();
     }, 1000);
@@ -33,21 +36,21 @@ class Timer extends React.Component {
   }
 
   render() {
-    const { time } = this.state;
+    const { time } = this.props;
     return (
       <div>
-        <h4>Tempo: {time}</h4>
+        {time >= 0 && <h4>Tempo: {time}</h4>}
       </div>
     );
   }
 }
 
-mapDispatchToProps(dispatch) ({
-  time: event => dispatch(timeCount(event)),
-})
+const mapStateToProps = (state) => ({
+  time: state.timerReducer.time,
+});
 
-mapStateToProps(state) ({
-  
-})
+const mapDispatchToProps = (dispatch) => ({
+  setTime: () => dispatch(timeCount()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);
