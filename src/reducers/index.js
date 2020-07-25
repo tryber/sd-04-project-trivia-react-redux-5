@@ -4,7 +4,7 @@ import timerReducer from './TimerReducer';
 
 const rootReducer = combineReducers({
   questionReducer,
-  timerReducer
+  timerReducer,
 });
 
 export default rootReducer;
