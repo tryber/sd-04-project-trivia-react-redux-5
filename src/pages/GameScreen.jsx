@@ -30,7 +30,8 @@ class GameScreen extends Component {
       position: 0,
       redirect: false,
       isDisabled: true,
-      // time: 30,
+      time: 5,
+      enableNxt: false,
       classe: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -83,18 +84,30 @@ class GameScreen extends Component {
   }
 
   nextQuestion() {
-    const { position } = this.state;
+    const { position, enableNxt } = this.state;
     if (position < 4) {
-      this.setState({
+      this.setState(() => ({
         position: position + 1,
         isDisabled: true,
         classe: false,
-      });
+        enableNxt: !enableNxt,
+      }));
     } else {
       this.setState({
         redirect: true,
       });
     }
+  }
+
+  renderTimer() {
+    const { time, isDisabled, enableNxt } = this.state;
+    return (
+      <Timer
+        enableButtons={this.enableButtons}
+        time={time} isDisabled={isDisabled}
+        enableNxt={enableNxt}
+      />
+    );
   }
 
   renderQuestions() {
@@ -124,13 +137,15 @@ class GameScreen extends Component {
         >
           Próxima
         </button>)}
+        {this.renderTimer()}
       </div>
     );
   }
 
   render() {
-    const { isFetching, time } = this.props;
-    if (time === 0) this.enableButtons();
+    const { isFetching } = this.props;
+    // if (time === 0) this.enableButtons();
+    console.log('enableNxt: ', this.state.enableNxt);
 
     if (isFetching) return <div>Loading...</div>;
 
@@ -138,7 +153,7 @@ class GameScreen extends Component {
       <div>
         <Header />
         {this.renderQuestions()}
-        <Timer />
+        {/* <Timer /> */}
       </div>
     );
   }
@@ -147,7 +162,7 @@ class GameScreen extends Component {
 const mapStateToProps = (state) => ({
   isFetching: state.questionReducer.isFetching,
   questions: state.questionReducer.questions,
-  time: state.timerReducer.time,
+  // time: state.timerReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({

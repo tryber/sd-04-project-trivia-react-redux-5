@@ -6,7 +6,7 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 30,
+      time: props.time,
     };
     this.getTimer = this.getTimer.bind(this);
     this.endTimer = this.endTimer.bind(this);
@@ -17,40 +17,51 @@ class Timer extends React.Component {
   }
 
   getTimer() {
-    // const { time } = this.state;
-    const { time, setTime } = this.props;
+    const { time } = this.state;
+    // const { time, setTime } = this.props;
     setTimeout(() => {
-      // this.setState({
-      //   time: time - 1,
-      // });
-      setTime();
-      if (time === 0) return this.endTimer(time);
+      this.setState({
+        time: time - 1,
+      });
+      // setTime();
+      if (time <= 1) return this.endTimer(time);
       return this.getTimer();
     }, 1000);
   }
 
   endTimer() {
-    this.setState({
-      time: 0,
-    });
+    const { enableButtons, isDisabled, enableNxt } = this.props;
+    console.log('enableNxt: ', enableNxt);
+    if (isDisabled) {
+      enableButtons();
+      this.setState({
+        time: 5,
+      });
+      if (enableNxt) this.componentDidMount();
+    }
   }
 
   render() {
-    const { time } = this.props;
+    const { time } = this.state;
+    // const { time } = this.props;
+    console.log('TimerComponente: ', this.state.time);
+    console.log('TimerComponente: ', this.props.time);
+    console.log('Verificar se muda :', this.props.isDisabled);
     return (
       <div>
-        {time >= 0 && <h4>Tempo: {time}</h4>}
+        <h4>Tempo: {time}</h4>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  time: state.timerReducer.time,
-});
+// const mapStateToProps = (state) => ({
+//   time: state.timerReducer.time,
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  setTime: () => dispatch(timeCount()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   setTime: () => dispatch(timeCount()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Timer);
+export default Timer;
+// export default connect(mapStateToProps, mapDispatchToProps)(Timer);
