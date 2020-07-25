@@ -45,9 +45,10 @@ class GameScreen extends Component {
 
   enableButtons() {
     const { isDisabled } = this.state;
+
     this.setState({
       isDisabled: !isDisabled,
-      classe: true
+      classe: true,
     });
   }
 
@@ -136,7 +137,7 @@ class GameScreen extends Component {
       <div>
         <Header />
         {this.renderQuestions()}
-        {/* <Timer /> */}
+        <Timer />
       </div>
     );
   }

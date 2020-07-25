@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Timer extends React.Component {
   componentDidMount() {
     this.getTimer();
   }
-//  so para dar um commit
+
   getTimer() {
     const { time } = this.state;
     setTimeout(() => {
@@ -41,4 +42,12 @@ class Timer extends React.Component {
   }
 }
 
-export default Timer;
+mapDispatchToProps(dispatch) ({
+  time: event => dispatch(timeCount(event)),
+})
+
+mapStateToProps(state) ({
+  
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
