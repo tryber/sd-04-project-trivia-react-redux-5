@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
-import { getQuestionsApi } from '../actions';
+import { getQuestionsApi, setIsDisabled, setNextQuestion } from '../actions';
 import './GameScreen.css';
 
 
@@ -27,15 +27,15 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: 0,
+      // position: 0,
       redirect: false,
-      isDisabled: true,
-      time: 5,
+      // isDisabled: true,
+      // time: 5,
       enableNxt: false,
       classe: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.enableButtons = this.enableButtons.bind(this);
+    // this.enableButtons = this.enableButtons.bind(this);
   }
 
   componentDidMount() {
@@ -44,16 +44,18 @@ class GameScreen extends Component {
     pegaPerguntas(token);
   }
 
-  enableButtons() {
-    const { isDisabled } = this.state;
+  // enableButtons() {
+  //   // const { isDisabled } = this.state;
 
-    this.setState({
-      isDisabled: !isDisabled,
-      classe: true,
-    });
-  }
+  //   // this.setState((state) => ({
+  //   //   isDisabled: !state.isDisabled,
+  //   //   classe: true,
+  //   // }));
+  // }
 
   carregaBotoes(respostas, correct, colorCorrect, colorIncorrect) {
+    const { classe, isDisabled, setIsDisableds } = this.props;
+    // const { classe } = this.state;
     return respostas.map((alternativa) =>
       alternativa === correct ? (
         <button
@@ -61,9 +63,9 @@ class GameScreen extends Component {
           type="button"
           style={{ border: colorCorrect }}
           data-testid="correct-answer"
-          onClick={() => this.enableButtons()}
-          disabled={!this.state.isDisabled}
-          className={this.state.classe ? 'correctAnswer' : null}
+          onClick={() => setIsDisableds()}
+          disabled={!isDisabled}
+          className={classe ? 'correctAnswer' : null}
         >
           {alternativa}
         </button>
@@ -73,9 +75,9 @@ class GameScreen extends Component {
           type="button"
           style={{ border: colorIncorrect }}
           data-testid="wrong-answer-index"
-          onClick={() => this.enableButtons()}
-          disabled={!this.state.isDisabled}
-          className={this.state.classe ? 'incorrectAnswer' : null}
+          onClick={() => setIsDisableds()}
+          disabled={!isDisabled}
+          className={classe ? 'incorrectAnswer' : null}
         >
           {alternativa}
         </button>
@@ -84,13 +86,15 @@ class GameScreen extends Component {
   }
 
   nextQuestion() {
-    const { position, enableNxt } = this.state;
+    const { setIsDisableds, position, forwardQuestion } = this.props;
     if (position < 4) {
-      this.setState(() => ({
-        position: position + 1,
-        isDisabled: true,
-        classe: false,
-        enableNxt: !enableNxt,
+      setIsDisableds();
+      forwardQuestion();
+      this.setState((state) => ({
+        // position: position + 1,
+        // isDisabled: true,
+        // classe: false,
+        enableNxt: !state.enableNxt,
       }));
     } else {
       this.setState({
@@ -100,19 +104,20 @@ class GameScreen extends Component {
   }
 
   renderTimer() {
-    const { time, isDisabled, enableNxt } = this.state;
+    const { enableNxt } = this.state;
+    console.log('enableNxt do GameScreen: ', enableNxt);
     return (
       <Timer
-        enableButtons={this.enableButtons}
-        time={time} isDisabled={isDisabled}
+        // enableButtons={this.enableButtons}
+        // isDisabled={isDisabled}
         enableNxt={enableNxt}
       />
     );
   }
 
   renderQuestions() {
-    const { position, isDisabled, redirect } = this.state;
-    const { questions } = this.props;
+    const { redirect } = this.state;
+    const { isDisabled, questions, position } = this.props;
     const correctResp = questions[position].correct_answer;
     const respostas = GameScreen.embaralhar([
       ...questions[position].incorrect_answers,
@@ -145,7 +150,6 @@ class GameScreen extends Component {
   render() {
     const { isFetching } = this.props;
     // if (time === 0) this.enableButtons();
-    console.log('enableNxt: ', this.state.enableNxt);
 
     if (isFetching) return <div>Loading...</div>;
 
@@ -162,11 +166,16 @@ class GameScreen extends Component {
 const mapStateToProps = (state) => ({
   isFetching: state.questionReducer.isFetching,
   questions: state.questionReducer.questions,
+  isDisabled: state.questionReducer.isDisabled,
+  classe: state.questionReducer.classe,
+  position: state.questionReducer.position,
   // time: state.timerReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   pegaPerguntas: (token) => dispatch(getQuestionsApi(token)),
+  setIsDisableds: () => dispatch(setIsDisabled()),
+  forwardQuestion: () => dispatch(setNextQuestion()),
 });
 
 GameScreen.propTypes = {
