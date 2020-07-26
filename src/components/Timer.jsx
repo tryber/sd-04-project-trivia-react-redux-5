@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 // import { timeCount } from '../actions/TimeAction';
 import { setIsDisabled } from '../actions';
 import { timeCount, setTimer } from '../actions/TimeAction';
@@ -21,20 +22,9 @@ class Timer extends React.Component {
     // this.setState((state) => ({ ...state, timerID: timerID }));
   }
 
-  getTimer() {
-    const timerID = setInterval(this.countDown, 1000);
-    this.setState((state) => ({ ...state, timerID: timerID }));
-  }
-
-  countDown() {
-    const { setTime } = this.props;
-    setTime();
-    // this.setState((state) => ({ time: state.time - 1 }));
-  }
-
-  componentDidUpdate(prevProps, ) {
+  componentDidUpdate(prevProps) {
     const { timerID } = this.state;
-    const { time, enableNxt, setIsDisableds, resetTime, position, isDisabled } = this.props;
+    const { time, setIsDisableds, resetTime, position, isDisabled } = this.props;
     if (time <= 0) {
       resetTime();
       console.log(time);
@@ -47,6 +37,17 @@ class Timer extends React.Component {
       resetTime();
     }
     if (prevProps.position !== position) this.getTimer();
+  }
+
+  getTimer() {
+    const timerID = setInterval(this.countDown, 1000);
+    this.setState((state) => ({ ...state, timerID }));
+  }
+
+  countDown() {
+    const { setTime } = this.props;
+    setTime();
+    // this.setState((state) => ({ time: state.time - 1 }));
   }
 
   // getTimer() {
@@ -89,7 +90,6 @@ class Timer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isDisabled: state.questionReducer.isDisabled,
   time: state.timerReducer.time,
   position: state.questionReducer.position,
   isDisabled: state.questionReducer.isDisabled,
@@ -102,5 +102,13 @@ const mapDispatchToProps = (dispatch) => ({
   resetTime: () => dispatch(setTimer()),
 });
 
-// export default Timer;
+Timer.propTypes = {
+  time: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  setTime: PropTypes.func.isRequired,
+  resetTime: PropTypes.func.isRequired,
+  setIsDisableds: PropTypes.func.isRequired,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

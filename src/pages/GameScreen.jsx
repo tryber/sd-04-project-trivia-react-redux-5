@@ -169,7 +169,6 @@ const mapStateToProps = (state) => ({
   isDisabled: state.questionReducer.isDisabled,
   classe: state.questionReducer.classe,
   position: state.questionReducer.position,
-  // time: state.timerReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -179,8 +178,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 GameScreen.propTypes = {
+  position: PropTypes.number.isRequired,
+  classe: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
   pegaPerguntas: PropTypes.func.isRequired,
+  setIsDisableds: PropTypes.func.isRequired,
+  forwardQuestion: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
