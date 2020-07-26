@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { INITIAL_STORAGE_STATE } from '../services/localStorageAPI';
-import { connect } from 'react-redux';
-import { limpaTudo } from '../actions';
+import FeedBackButtons from '../components/FeedBackButtons';
 
 const feedbackText = (assertions) => {
   if (assertions < 3) return 'Podia ser melhor...';
@@ -15,17 +13,12 @@ class FeedBack extends Component {
   render() {
     const state = JSON.parse(localStorage.getItem('state')) || INITIAL_STORAGE_STATE;
     const { score, assertions } = state.player;
-    const { limpaBagunca } = this.props;
 
     return (
       <div>
+        <Header />
         <div>
-          <Header />
-        </div>
-        <div>
-          <h1>
-            <strong>Feedback</strong>
-          </h1>
+          <h1>Feedback</h1>
           <div>
             <h3 data-testid="feedback-text">{feedbackText(assertions)}</h3>
             <h4>
@@ -35,28 +28,11 @@ class FeedBack extends Component {
               Acertos <span data-testid="feedback-total-question">{assertions}</span>
             </h4>
           </div>
-          <Link to="/">
-            <button
-              data-testid="btn-play-again"
-              onClick={() => {
-                localStorage.setItem('state', '');
-                limpaBagunca();
-              }}
-            >
-              Jogar novamente
-            </button>
-          </Link>
-          <Link to="/Ranking">
-            <button data-testid="btn-ranking">Ver Ranking</button>
-          </Link>
+          <FeedBackButtons />
         </div>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  limpaBagunca: () => dispatch(limpaTudo()),
-});
-
-export default connect(null, mapDispatchToProps)(FeedBack);
+export default FeedBack;

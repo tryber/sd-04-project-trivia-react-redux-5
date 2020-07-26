@@ -24,6 +24,16 @@ class GameScreen extends Component {
     return newArray;
   }
 
+  static renderTimer() {
+    return <Timer />;
+  }
+
+  static questionValue(level) {
+    if (level === 'easy') return 1;
+    else if (level === 'medium') return 2;
+    else return 3;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,18 +48,17 @@ class GameScreen extends Component {
     pegaPerguntas(token);
   }
 
-  carregaBotoes(respostas, correct, value, colorCorrect, colorIncorrect) {
+  carregaBotoes(respostas, correct, value) {
     const { classe, isDisabled, setIsDisableds, calcPoints } = this.props;
     return respostas.map((alternativa) =>
       alternativa === correct ? (
         <button
           key={alternativa}
           type="button"
-          style={{ border: colorCorrect }}
           data-testid="correct-answer"
           onClick={() => {
-            setIsDisableds()
-            calcPoints(value)
+            setIsDisableds();
+            calcPoints(value);
           }}
           disabled={!isDisabled}
           className={classe ? 'correctAnswer' : null}
@@ -60,7 +69,6 @@ class GameScreen extends Component {
         <button
           key={alternativa}
           type="button"
-          style={{ border: colorIncorrect }}
           data-testid="wrong-answer-index"
           onClick={() => setIsDisableds()}
           disabled={!isDisabled}
@@ -88,18 +96,10 @@ class GameScreen extends Component {
     }
   }
 
-  renderTimer() {
-    return <Timer/>;
-  }
-
-  questionValue(level) {
-    return (level === 'easy') ? 1 : (level === 'medium') ? 2 : 3;
-  }
-
   renderQuestions() {
     const { redirect } = this.state;
     const { isDisabled, questions, position } = this.props;
-    const difficulty = this.questionValue(questions[position].difficulty);
+    const difficulty = GameScreen.questionValue(questions[position].difficulty);
     const correctResp = questions[position].correct_answer;
     const respostas = GameScreen.embaralhar([
       ...questions[position].incorrect_answers,
@@ -124,7 +124,7 @@ class GameScreen extends Component {
         >
           Próxima
         </button>)}
-        {this.renderTimer()}
+        {GameScreen.renderTimer()}
       </div>
     );
   }
@@ -145,7 +145,6 @@ class GameScreen extends Component {
 
 const mapStateToProps = (state) => ({
   isFetching: state.questionReducer.isFetching,
-  points: state.timerReducer.points,
   questions: state.questionReducer.questions,
   isDisabled: state.questionReducer.isDisabled,
   classe: state.questionReducer.classe,
@@ -160,7 +159,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 GameScreen.propTypes = {
-  points: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   classe: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
@@ -168,6 +166,7 @@ GameScreen.propTypes = {
   pegaPerguntas: PropTypes.func.isRequired,
   setIsDisableds: PropTypes.func.isRequired,
   forwardQuestion: PropTypes.func.isRequired,
+  calcPoints: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
