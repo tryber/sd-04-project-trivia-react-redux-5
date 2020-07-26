@@ -7,7 +7,6 @@ import Header from '../components/Header';
 import { getQuestionsApi } from '../actions';
 import './GameScreen.css';
 
-
 class GameScreen extends Component {
   static embaralhar(array) {
     const newArray = [...array];
@@ -97,6 +96,7 @@ class GameScreen extends Component {
         redirect: true,
       });
     }
+    console.log('clicou')
   }
 
   renderTimer() {
@@ -104,7 +104,8 @@ class GameScreen extends Component {
     return (
       <Timer
         enableButtons={this.enableButtons}
-        time={time} isDisabled={isDisabled}
+        time={time}
+        isDisabled={isDisabled}
         enableNxt={enableNxt}
       />
     );
@@ -130,13 +131,15 @@ class GameScreen extends Component {
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
         {this.carregaBotoes(respostas, correctResp)}
-        {!isDisabled && (<button
-          data-testid="btn-next"
-          type="button"
-          onClick={this.nextQuestion}
-        >
-          Próxima
-        </button>)}
+        {!isDisabled && (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={this.nextQuestion}
+          >
+            Próxima
+          </button>
+        )}
         {this.renderTimer()}
       </div>
     );
@@ -146,6 +149,8 @@ class GameScreen extends Component {
     const { isFetching } = this.props;
     // if (time === 0) this.enableButtons();
     console.log('enableNxt: ', this.state.enableNxt);
+    console.log('Verificar se muda no gameScreen :', this.state.isDisabled);
+
 
     if (isFetching) return <div>Loading...</div>;
 

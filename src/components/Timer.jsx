@@ -6,7 +6,7 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: props.time,
+      time: 5,
     };
     this.getTimer = this.getTimer.bind(this);
     this.endTimer = this.endTimer.bind(this);
@@ -15,6 +15,10 @@ class Timer extends React.Component {
   componentDidMount() {
     this.getTimer();
   }
+
+  // componentDidUpdate() {
+  //   this.getTimer();
+  // }
 
   getTimer() {
     const { time } = this.state;
@@ -35,7 +39,8 @@ class Timer extends React.Component {
     if (isDisabled) {
       enableButtons();
       this.setState({
-        time: 5,
+        time: 0,
+        enableNxt: !enableNxt
       });
       if (enableNxt) this.componentDidMount();
     }
@@ -45,7 +50,6 @@ class Timer extends React.Component {
     const { time } = this.state;
     // const { time } = this.props;
     console.log('TimerComponente: ', this.state.time);
-    console.log('TimerComponente: ', this.props.time);
     console.log('Verificar se muda :', this.props.isDisabled);
     return (
       <div>
