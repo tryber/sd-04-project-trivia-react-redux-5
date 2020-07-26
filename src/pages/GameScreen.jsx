@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import Header from '../components/Header';
-import { getQuestionsApi, setIsDisabled, setNextQuestion } from '../actions';
+import { getQuestionsApi, setIsDisabled, setNextQuestion, sumPoints } from '../actions';
 import './GameScreen.css';
 
 
@@ -27,15 +27,9 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // position: 0,
       redirect: false,
-      // isDisabled: true,
-      // time: 5,
-      enableNxt: false,
-      classe: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
-    // this.enableButtons = this.enableButtons.bind(this);
   }
 
   componentDidMount() {
@@ -44,18 +38,8 @@ class GameScreen extends Component {
     pegaPerguntas(token);
   }
 
-  // enableButtons() {
-  //   // const { isDisabled } = this.state;
-
-  //   // this.setState((state) => ({
-  //   //   isDisabled: !state.isDisabled,
-  //   //   classe: true,
-  //   // }));
-  // }
-
-  carregaBotoes(respostas, correct, colorCorrect, colorIncorrect) {
-    const { classe, isDisabled, setIsDisableds } = this.props;
-    // const { classe } = this.state;
+  carregaBotoes(respostas, correct, value, colorCorrect, colorIncorrect) {
+    const { classe, isDisabled, setIsDisableds, calcPoints } = this.props;
     return respostas.map((alternativa) =>
       alternativa === correct ? (
         <button
@@ -63,7 +47,10 @@ class GameScreen extends Component {
           type="button"
           style={{ border: colorCorrect }}
           data-testid="correct-answer"
-          onClick={() => setIsDisableds()}
+          onClick={() => {
+            setIsDisableds()
+            calcPoints(value)
+          }}
           disabled={!isDisabled}
           className={classe ? 'correctAnswer' : null}
         >
@@ -91,12 +78,10 @@ class GameScreen extends Component {
       setIsDisableds();
       forwardQuestion();
       this.setState((state) => ({
-        // position: position + 1,
-        // isDisabled: true,
-        // classe: false,
         enableNxt: !state.enableNxt,
       }));
     } else {
+      setIsDisableds();
       this.setState({
         redirect: true,
       });
@@ -104,20 +89,17 @@ class GameScreen extends Component {
   }
 
   renderTimer() {
-    const { enableNxt } = this.state;
-    console.log('enableNxt do GameScreen: ', enableNxt);
-    return (
-      <Timer
-        // enableButtons={this.enableButtons}
-        // isDisabled={isDisabled}
-        enableNxt={enableNxt}
-      />
-    );
+    return <Timer/>;
+  }
+
+  questionValue(level) {
+    return (level === 'easy') ? 1 : (level === 'medium') ? 2 : 3;
   }
 
   renderQuestions() {
     const { redirect } = this.state;
     const { isDisabled, questions, position } = this.props;
+    const difficulty = this.questionValue(questions[position].difficulty);
     const correctResp = questions[position].correct_answer;
     const respostas = GameScreen.embaralhar([
       ...questions[position].incorrect_answers,
@@ -134,7 +116,7 @@ class GameScreen extends Component {
           </h3>
           <p data-testid="question-text">{questions[position].question}</p>
         </div>
-        {this.carregaBotoes(respostas, correctResp)}
+        {this.carregaBotoes(respostas, correctResp, difficulty)}
         {!isDisabled && (<button
           data-testid="btn-next"
           type="button"
@@ -149,7 +131,6 @@ class GameScreen extends Component {
 
   render() {
     const { isFetching } = this.props;
-    // if (time === 0) this.enableButtons();
 
     if (isFetching) return <div>Loading...</div>;
 
@@ -157,7 +138,6 @@ class GameScreen extends Component {
       <div>
         <Header />
         {this.renderQuestions()}
-        {/* <Timer /> */}
       </div>
     );
   }
@@ -165,6 +145,7 @@ class GameScreen extends Component {
 
 const mapStateToProps = (state) => ({
   isFetching: state.questionReducer.isFetching,
+  points: state.timerReducer.points,
   questions: state.questionReducer.questions,
   isDisabled: state.questionReducer.isDisabled,
   classe: state.questionReducer.classe,
@@ -175,9 +156,11 @@ const mapDispatchToProps = (dispatch) => ({
   pegaPerguntas: (token) => dispatch(getQuestionsApi(token)),
   setIsDisableds: () => dispatch(setIsDisabled()),
   forwardQuestion: () => dispatch(setNextQuestion()),
+  calcPoints: (value) => dispatch(sumPoints(value)),
 });
 
 GameScreen.propTypes = {
+  points: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   classe: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,

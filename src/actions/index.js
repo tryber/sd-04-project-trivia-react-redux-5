@@ -1,5 +1,20 @@
 import questionsApi from '../services/questionsApi';
 
+// ---------------------- caclPointsActions --------------------------
+export const ZERA_PERGUNTAS = 'ZERA_PERGUNTAS';
+
+export const limpaTudo = () => ({
+  type: ZERA_PERGUNTAS,
+});
+
+// ---------------------- caclPointsActions --------------------------
+export const CALC_POINTS = 'CALC_POINTS';
+
+export const sumPoints = (value) => ({
+  type: CALC_POINTS,
+  value,
+});
+
 // ---------------------- nextQuestionActions --------------------------
 export const NEXT_QUESTION = 'NEXT_QUESTION';
 

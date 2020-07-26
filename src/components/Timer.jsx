@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { timeCount } from '../actions/TimeAction';
 import { setIsDisabled } from '../actions';
 import { timeCount, setTimer } from '../actions/TimeAction';
 
@@ -11,15 +10,11 @@ class Timer extends React.Component {
     this.state = {
       // time: 5,
     };
-    // this.getTimer = this.getTimer.bind(this);
     this.countDown = this.countDown.bind(this);
-    // this.endTimer = this.endTimer.bind(this);
   }
 
   componentDidMount() {
     this.getTimer();
-    // const timerID = setInterval(this.countDown, 1000);
-    // this.setState((state) => ({ ...state, timerID: timerID }));
   }
 
   componentDidUpdate(prevProps) {
@@ -47,40 +42,10 @@ class Timer extends React.Component {
   countDown() {
     const { setTime } = this.props;
     setTime();
-    // this.setState((state) => ({ time: state.time - 1 }));
   }
 
-  // getTimer() {
-  //   const { time } = this.state;
-  //   // const { time, setTime } = this.props;
-  //   setTimeout(() => {
-  //     this.setState({
-  //       time: time - 1,
-  //     });
-  //     // setTime();
-  //     if (time <= 1) return this.endTimer(time);
-  //     return this.getTimer();
-  //   }, 1000);
-  // }
-
-  // endTimer() {
-  //   const { enableButtons, isDisabled, enableNxt } = this.props;
-  //   console.log('enableNxt do Timer: ', enableNxt);
-  //   if (isDisabled) {
-  //     enableButtons();
-  //     this.setState({
-  //       time: 5,
-  //     });
-  //     if (enableNxt) this.componentDidMount();
-  //   }
-  // }
-
   render() {
-    // const { time } = this.state;
     const { time } = this.props;
-    // const { time } = this.props;
-    // console.log('TimerComponente: ', this.state.time);
-    // console.log('Verificar se muda :', this.props.isDisabled);
     return (
       <div>
         <h4>Tempo: {time}</h4>
