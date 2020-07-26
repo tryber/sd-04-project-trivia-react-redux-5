@@ -64,9 +64,9 @@ class Timer extends React.Component {
 // });
 
 Timer.propTypes = {
-  enableButtons: PropTypes.string.isRequired,
-  isDisabled: PropTypes.string.isRequired,
-  enableNxt: PropTypes.string.isRequired,
+  enableButtons: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  enableNxt: PropTypes.bool.isRequired,
 };
 
 export default Timer;
