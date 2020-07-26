@@ -31,7 +31,7 @@ class GameScreen extends Component {
   static questionValue(level) {
     if (level === 'easy') return 1;
     else if (level === 'medium') return 2;
-    else return 3;
+    return 3;
   }
 
   constructor(props) {
