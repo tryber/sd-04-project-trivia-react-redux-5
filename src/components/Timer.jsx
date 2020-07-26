@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { timeCount } from '../actions/TimeAction';
+import PropTypes from 'prop-types';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -40,7 +39,7 @@ class Timer extends React.Component {
       enableButtons();
       this.setState({
         time: 0,
-        enableNxt: !enableNxt
+        enableNxt: !enableNxt,
       });
       if (enableNxt) this.componentDidMount();
     }
@@ -48,9 +47,6 @@ class Timer extends React.Component {
 
   render() {
     const { time } = this.state;
-    // const { time } = this.props;
-    console.log('TimerComponente: ', this.state.time);
-    console.log('Verificar se muda :', this.props.isDisabled);
     return (
       <div>
         <h4>Tempo: {time}</h4>
@@ -66,6 +62,12 @@ class Timer extends React.Component {
 // const mapDispatchToProps = (dispatch) => ({
 //   setTime: () => dispatch(timeCount()),
 // });
+
+Timer.propTypes = {
+  enableButtons: PropTypes.string.isRequired,
+  isDisabled: PropTypes.string.isRequired,
+  enableNxt: PropTypes.string.isRequired,
+};
 
 export default Timer;
 // export default connect(mapStateToProps, mapDispatchToProps)(Timer);

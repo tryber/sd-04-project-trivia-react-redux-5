@@ -96,7 +96,6 @@ class GameScreen extends Component {
         redirect: true,
       });
     }
-    console.log('clicou')
   }
 
   renderTimer() {
