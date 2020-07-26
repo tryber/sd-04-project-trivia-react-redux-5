@@ -29,7 +29,7 @@ class GameScreen extends Component {
       position: 0,
       redirect: false,
       isDisabled: true,
-      time: 5,
+      time: 30,
       enableNxt: false,
       classe: false,
     };
