@@ -12,10 +12,10 @@ export default function App() {
       <div> Trivia </div>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/GameScreen" component={GameScreen} />
+        <Route path="/GameScreen" component={GameScreen} />
         <Route path="/Feedback" component={Feedback} />
-        <Route exact path="/Settings" component={Settings} />
-        <Route exact path="/Ranking" component={Ranking} />
+        <Route path="/Settings" component={Settings} />
+        <Route path="/Ranking" component={Ranking} />
       </Switch>
     </BrowserRouter>
   );
